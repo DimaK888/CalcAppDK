@@ -31,17 +31,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String exp = inputs.getText().toString();
+            exp = exp.replace("\\,", "\\.").replaceAll("[^\\.\\^\\*\\+\\-\\d/\\s]", "");
+            schnelle.err = "";
             if (exp.isEmpty()){
                 result.setText("Поле пустое. Введите выражение.");
             }
             else {
-                ArrayList<String> asPostfix;
-                exp = exp.replace("\\,", "\\.");//.replaceAll("^[\\.\\^\\*\\+\\-\\d/\\s]", "");
-                asPostfix = schnelle.infixToPostfix(exp);
-                String postfixExp = asPostfix.toString().replaceAll(",", " ");
-                postfixExp = postfixExp.substring(1, postfixExp.length() - 1);
-                schnelle.parseRPN(postfixExp);
-                result.setText(postfixExp + " = " + schnelle.getResult());}
+                result.setText(schnelle.outputResult(exp));
+            }
             }
     };
 }

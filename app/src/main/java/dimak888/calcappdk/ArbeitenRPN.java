@@ -182,4 +182,20 @@ public class ArbeitenRPN{
         }
         return output;
     }
+
+    public String outputResult(String exp){
+
+        ArrayList<String> asPostfix;
+        asPostfix = infixToPostfix(exp);
+        String postfixExp = asPostfix.toString().replaceAll(",", " ");
+        postfixExp = postfixExp.substring(1, postfixExp.length() - 1);
+        parseRPN(postfixExp);
+
+        if (err == ""){
+            return postfixExp + " = " + getResult();
+        }
+        else{
+            return err;
+        }
+    }
 }
