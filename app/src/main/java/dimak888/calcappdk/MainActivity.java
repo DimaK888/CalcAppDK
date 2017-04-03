@@ -7,8 +7,6 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     EditText inputs;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             exp = exp.replace("\\,", "\\.").replaceAll("[^\\.\\^\\*\\+\\-\\d/\\s]", "");
             schnelle.err = "";
             if (exp.isEmpty()){
-                result.setText("Поле пустое. Введите выражение.");
+                result.setText("Введите выражение.");
             }
             else {
                 result.setText(schnelle.outputResult(exp));

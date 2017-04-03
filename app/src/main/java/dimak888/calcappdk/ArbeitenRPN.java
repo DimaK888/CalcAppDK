@@ -8,7 +8,6 @@ import java.util.Stack;
 
 public class ArbeitenRPN{
 
-    //MainActivity resultView;
     String err = "";
 
     final String operands = "^*+-/" ;
@@ -42,7 +41,7 @@ public class ArbeitenRPN{
             return false;
         if (allowParanethesis &&  (s.equals("(") || s.equals(")")))
             return true;
-        else return operands.indexOf( s ) != -1;
+        else return operands.indexOf(s) != -1;
     }
 
     public boolean isNumber(String s){
@@ -52,7 +51,7 @@ public class ArbeitenRPN{
         for( int i = 0;i < s.length()  ;i++)
         {
             String lttr = s.substring(i, i+1);
-            if(master.indexOf( lttr) == -1)
+            if(master.indexOf(lttr) == -1)
                 return false;
         }
         return true;
@@ -64,9 +63,9 @@ public class ArbeitenRPN{
         Stack<Double> numberStack =new Stack<>();
 
         boolean  bAllowParenthesis = false;
-        for( String token : tokens)
+        for(String token : tokens)
         {
-            if(token.equals("-") == false && isNumber(token))
+            if(!token.equals("-") && isNumber(token))
             {
                 double d = Double.parseDouble(token) ;
                 numberStack.push(d) ;
@@ -89,9 +88,7 @@ public class ArbeitenRPN{
         result= numberStack.pop();
     }
 
-    double getResult() {
-        return result;
-    }
+    double getResult() { return result; }
 
     private Double calculate(double num1, double num2, String op) {
         if( op.equals("+"))
@@ -122,7 +119,7 @@ public class ArbeitenRPN{
 
         Stack<String> operandStack = new Stack<>();
 
-        for(int i = 0 ;i< input.length() ; i++)
+        for(int i = 0;i< input.length(); i++)
         {
             String currentToken = input.substring(i,i+1);
             if(isOperand(currentToken, true))
@@ -131,18 +128,18 @@ public class ArbeitenRPN{
                     operandStack.push( currentToken );
                 else if(operandStack.size() > 0  && currentToken.equals(")"))
                 {
-                    while(operandStack.size() > 0  && operandStack.peek().equals("(") == false)
+                    while(operandStack.size() > 0  && !operandStack.peek().equals("("))
                     {
                         output.add(operandStack.pop()) ;
                     }
-                    operandStack.pop(); // удаляем "("
+                    operandStack.pop();
                 }
 
                 else if(operandStack.size() > 0 )
                 {
-                    if((currentToken.equals("(") && operandStack.peek().equals("(")) || (currentToken.equals("(")== false && this.operatorToPrecedence(operandStack.peek()) >= this.operatorToPrecedence(currentToken)))
+                    if((currentToken.equals("(") && operandStack.peek().equals("(")) || (!currentToken.equals("(") && this.operatorToPrecedence(operandStack.peek()) >= this.operatorToPrecedence(currentToken)))
                     {
-                        while (operandStack.size()> 0 && operandStack.peek().equals("(")== false &&  this.operatorToPrecedence(operandStack.peek()) >= this.operatorToPrecedence(currentToken))
+                        while (operandStack.size()> 0 && !operandStack.peek().equals("(") &&  this.operatorToPrecedence(operandStack.peek()) >= this.operatorToPrecedence(currentToken))
                         {
                             output.add(operandStack.pop());
                         }
@@ -159,7 +156,7 @@ public class ArbeitenRPN{
                 numberLoop : while(i+1 < input.length())
                 {
                     String nxtLttr =  input.substring(i+1,i+2);
-                    if(nxtLttr.equals("-") )
+                    if(nxtLttr.equals("-"))
                         break numberLoop;
 
                     if(isNumber(nxtLttr))
@@ -176,9 +173,9 @@ public class ArbeitenRPN{
                 catch (NumberFormatException e){ err = currentToken + " не валидное число"; }
             }
         }
-        while( operandStack.size() > 0 )
+        while(operandStack.size() > 0)
         {
-            output.add( operandStack.pop() ) ;
+            output.add(operandStack.pop()) ;
         }
         return output;
     }
@@ -191,7 +188,7 @@ public class ArbeitenRPN{
         postfixExp = postfixExp.substring(1, postfixExp.length() - 1);
         parseRPN(postfixExp);
 
-        if (err == ""){
+        if (err.equals("")){
             return postfixExp + " = " + getResult();
         }
         else{
